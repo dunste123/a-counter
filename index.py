@@ -22,21 +22,21 @@ circle_y = screen_h / 2
 circle1_x = screen_w * .25
 circle2_x = screen_w * .5
 circle3_x = screen_w * .75
-circle_rad = (circle2_x - circle1_x) / 3
+circle_rad = (circle2_x - circle1_x) / 2
 
 subs_text_x = screen_w * .25
-subs_text_y = screen_h * .3
+subs_text_y = screen_h * .25
 
 views_text_x = screen_w * .495
-views_text_y = screen_h * .3
+views_text_y = screen_h * .25
 
 videos_text_x = screen_w * .74
-videos_text_y = screen_h * .3
+videos_text_y = screen_h * .25
 
-channel_text_x = screen_w * .10
+channel_text_x = screen_w * .15
 channel_text_y = screen_h * .1
 
-channel_name_text_x = screen_w * .20
+channel_name_text_x = screen_w * .5
 channel_name_text_y = screen_h * .1
 
 headerFont = pygame.font.SysFont("Arial", 50)
@@ -59,7 +59,7 @@ def draw_hud():
     channel_text_loc = channel_text.get_rect(center=(channel_text_x, channel_text_y))
     screen.blit(channel_text, channel_text_loc)
 
-    subs_text = headerFont.render("Subscribers", True, black)
+    subs_text = headerFont.render("Subs", True, black)
     subs_text_loc = subs_text.get_rect(center=(subs_text_x, subs_text_y))
     screen.blit(subs_text, subs_text_loc)
 
@@ -74,6 +74,7 @@ def draw_hud():
 
 running = True
 s = sched.scheduler(time.time, time.sleep)
+
 
 def update_counts(sc):
     global subs, views, videos, channelName
@@ -96,7 +97,6 @@ def counter_thread():
 counter_thread = StoppableThread(target=counter_thread, daemon=True)
 counter_thread.start()
 
-run_thread = None
 
 def run_display():
     global run_thread, running, counter_thread
@@ -114,9 +114,9 @@ def run_display():
         subsDisplay = digitFont.render(str(subs), 3, white)
         viewsDisplay = digitFont.render(str(views), 3, white)
         videosDisplay = digitFont.render(str(videos), 3, white)
-        screen.blit(subsDisplay, (circle1_x - (circle1_x / 11), circle_y - 35))
-        screen.blit(viewsDisplay, (circle2_x - (circle2_x / 15), circle_y - 35))
-        screen.blit(videosDisplay, (circle3_x - (circle3_x / 18), circle_y - 35))
+        screen.blit(subsDisplay, (circle1_x - (circle1_x / 8), circle_y - 45))
+        screen.blit(viewsDisplay, (circle2_x - (circle2_x / 8), circle_y - 45))
+        screen.blit(videosDisplay, (circle3_x - (circle3_x / 8), circle_y - 45))
 
         channel_name_text = headerFont.render(channelName, True, white)
         channel_name_text_loc = channel_name_text.get_rect(center=(channel_name_text_x, channel_name_text_y))
