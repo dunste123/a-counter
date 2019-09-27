@@ -24,8 +24,8 @@ subs_text_y = screen_h * .3
 views_text_x = screen_w * .49
 views_text_y = screen_h * .3
 
-load_text_x = screen_w * .75
-load_text_y = screen_h * .3
+videos_text_x = screen_w * .75
+videos_text_y = screen_h * .3
 
 channel_text_x = screen_w * .10
 channel_text_y = screen_h * .1
@@ -51,6 +51,10 @@ def draw_hud():
     views_text = headerFont.render("Views", True, black)
     views_text_loc = views_text.get_rect(center=(views_text_x, views_text_y))
     screen.blit(views_text, views_text_loc)
+
+    videos_text = headerFont.render("Videos", True, black)
+    videos_text_loc = videos_text.get_rect(center=(videos_text_x, videos_text_y))
+    screen.blit(videos_text, videos_text_loc)
 
 
 running = True
