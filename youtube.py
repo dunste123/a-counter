@@ -15,7 +15,7 @@ empty_data = {
 def get_subs_and_views():
     global base_url, key, channel, empty_data
 
-    # return empty_data
+    return empty_data
 
     params = {
         'part': 'id,statistics,snippet',

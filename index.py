@@ -114,9 +114,10 @@ def run_display():
         subsDisplay = digitFont.render(str(subs), 3, white)
         viewsDisplay = digitFont.render(str(views), 3, white)
         videosDisplay = digitFont.render(str(videos), 3, white)
-        screen.blit(subsDisplay, (circle1_x - (circle1_x / 8), circle_y - 45))
-        screen.blit(viewsDisplay, (circle2_x - (circle2_x / 8), circle_y - 45))
-        screen.blit(videosDisplay, (circle3_x - (circle3_x / 8), circle_y - 45))
+
+        screen.blit(subsDisplay, (circle1_x - (circle1_x / 8), circle_y - 32))
+        screen.blit(viewsDisplay, (circle2_x - (circle2_x / 8), circle_y - 32))
+        screen.blit(videosDisplay, (circle3_x - (circle3_x / 8), circle_y - 32))
 
         channel_name_text = headerFont.render(channelName, True, white)
         channel_name_text_loc = channel_name_text.get_rect(center=(channel_name_text_x, channel_name_text_y))
