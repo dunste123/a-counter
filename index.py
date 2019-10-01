@@ -10,7 +10,18 @@ from button import Button
 
 pygame.init()
 
-screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+infoObject = pygame.display.Info()
+
+if infoObject.current_h < 720:
+    screen = pygame.display.set_mode((
+        infoObject.current_w,
+        infoObject.current_h
+    ), FULLSCREEN)
+else:
+    screen = pygame.display.set_mode((1280, 720))
+
+# screen = pygame.display.set_mode((1280, 720), pygame.FULLSCREEN)
+# screen = pygame.display.set_mode((720, 480))
 
 screen_w = screen.get_width()
 screen_h = screen.get_height()
@@ -75,24 +86,37 @@ def draw_hud():
 
 running = True
 s = sched.scheduler(time.time, time.sleep)
+video_timer = sched.scheduler(time.time, time.sleep)
 
 
 def update_counts(sc):
-    global subs, views, videos, channelName, latest_video_id
+    global subs, views, videos, channelName
     data = youtube.get_subs_and_views()
     subs = data['subs']
     views = data['views']
     videos = data['videos']
     channelName = data['name']
-    latest_video_id = youtube.get_latest_video_id()
     # every 60 seconds
     s.enter(60, 1, update_counts, (sc,))
 
 
-def counter_thread():
+def update_video(sc):
+    global latest_video_id
+    latest_video_id = youtube.get_latest_video_id()
+    # every 60 minutes
+    video_timer.enter(60 * 60, 1, update_video, (sc,))
+
+
+def counter_thread_fn():
     global s
     s.enter(1, 1, update_counts, (s,))
     s.run()
+
+
+def video_thread():
+    global video_timer
+    video_timer.enter(1, 1, update_video, (video_timer, ))
+    video_timer.run()
 
 
 def open_video_in_browser():
@@ -105,12 +129,15 @@ def call_quit_event():
     pygame.event.post(event)
 
 
-counter_thread = StoppableThread(target=counter_thread, daemon=True)
+counter_thread = StoppableThread(target=counter_thread_fn, daemon=True)
 counter_thread.start()
+
+video_update_thread = StoppableThread(target=video_thread, daemon=True)
+video_update_thread.start()
 
 
 def run_display():
-    global run_thread, running, counter_thread
+    global run_thread, running, counter_thread, video_update_thread
 
     while running:
         for event in pygame.event.get():
@@ -130,6 +157,7 @@ def run_display():
                 running = False
                 run_thread.stop()
                 counter_thread.stop()
+                video_update_thread.stop()
                 quit(0)
 
         draw_hud()
