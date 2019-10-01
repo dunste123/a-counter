@@ -15,6 +15,7 @@ default_video_id = 'dQw4w9WgXcQ'
 
 
 def request_or_default(path, params, default=None):
+    params['key'] = key
     r = requests.get(url=base_url + path, params=params)
     data = r.json()
 
@@ -37,7 +38,6 @@ def get_subs_and_views():
     try:
         params = {
             'part': 'id,statistics,snippet',
-            'key': key,
             'id': channel
         }
 
@@ -65,7 +65,6 @@ def get_latest_video_id():
     try:
         params = {
             'part': 'id,snippet',
-            'key': key,
             'channelId': channel,
             'order': 'date'
         }
