@@ -121,7 +121,7 @@ def video_thread():
 
 def open_video_in_browser():
     webbrowser.open('https://www.youtube.com/watch?v=' + latest_video_id)
-    call_quit_event()
+    # call_quit_event()
 
 
 def call_quit_event():

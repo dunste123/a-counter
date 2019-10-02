@@ -21,7 +21,7 @@ def request_or_default(path, params, default=None):
 
     print(data)
 
-    if data['error'] is not None:
+    if hasattr(data, 'error'):
         return default
 
     if data['pageInfo']['totalResults'] == 0:
@@ -35,26 +35,22 @@ def get_subs_and_views():
 
     print('fetching new data')
 
-    try:
-        params = {
-            'part': 'id,statistics,snippet',
-            'id': channel
-        }
+    params = {
+        'part': 'id,statistics,snippet',
+        'id': channel
+    }
 
-        data = request_or_default(path='/channels', params=params, default=empty_data)
+    data = request_or_default(path='/channels', params=params, default=empty_data)
 
-        stats = data['items'][0]['statistics']
-        title = data['items'][0]['snippet']['title']
+    stats = data['items'][0]['statistics']
+    title = data['items'][0]['snippet']['title']
 
-        return {
-            'name': title,
-            'subs': stats['subscriberCount'],
-            'views': stats['viewCount'],
-            'videos': stats['videoCount'],
-        }
-    except:
-        traceback.print_exc()
-        return empty_data
+    return {
+        'name': title,
+        'subs': stats['subscriberCount'],
+        'views': stats['viewCount'],
+        'videos': stats['videoCount'],
+    }
 
 
 def get_latest_video_id():
@@ -62,19 +58,15 @@ def get_latest_video_id():
 
     print('fetching new video')
 
-    try:
-        params = {
-            'part': 'id,snippet',
-            'channelId': channel,
-            'order': 'date'
-        }
+    params = {
+        'part': 'id,snippet',
+        'channelId': channel,
+        'order': 'date'
+    }
 
-        data = request_or_default(path='/search', params=params, default=default_video_id)
+    data = request_or_default(path='/search', params=params, default=default_video_id)
 
-        for item in data['items']:
-            if item['id']['kind'] == 'youtube#video':
-                print('new video id: ' + item['id']['videoId'])
-                return item['id']['videoId']
-    except:
-        traceback.print_exc()
-        return default_video_id
+    for item in data['items']:
+        if item['id']['kind'] == 'youtube#video':
+            print('new video id: ' + item['id']['videoId'])
+            return item['id']['videoId']
