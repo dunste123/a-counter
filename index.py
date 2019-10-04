@@ -103,8 +103,8 @@ def update_counts(sc):
 def update_video(sc):
     global latest_video_id
     latest_video_id = youtube.get_latest_video_id()
-    # every 60 minutes
-    video_timer.enter(60 * 60, 1, update_video, (sc,))
+    # every 24 hours
+    video_timer.enter(60 * 60 * 24, 1, update_video, (sc,))
 
 
 def counter_thread_fn():
