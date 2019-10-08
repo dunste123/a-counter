@@ -31,7 +31,7 @@ def request_or_default(path, params, default=None):
 
 
 def get_subs_and_views():
-    # return empty_data
+    return empty_data
 
     print('fetching new data')
 
@@ -54,7 +54,7 @@ def get_subs_and_views():
 
 
 def get_latest_video_id():
-    # return default_video_id
+    return default_video_id
 
     print('fetching new video')
 

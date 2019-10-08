@@ -1,6 +1,7 @@
 import pygame
 import youtube
-import webbrowser
+# import webbrowser
+from selenium import webdriver
 from StoppableThread import StoppableThread
 import sched
 import time
@@ -13,11 +14,13 @@ pygame.init()
 infoObject = pygame.display.Info()
 
 if infoObject.current_h < 720:
+    is_py = True
     screen = pygame.display.set_mode((
         infoObject.current_w,
         infoObject.current_h
     ), FULLSCREEN)
 else:
+    is_py = False
     screen = pygame.display.set_mode((1280, 720))
 
 # screen = pygame.display.set_mode((1280, 720), pygame.FULLSCREEN)
@@ -120,7 +123,16 @@ def video_thread():
 
 
 def open_video_in_browser():
-    webbrowser.open('https://www.youtube.com/watch?v=' + latest_video_id)
+    # webbrowser.open('https://www.youtube.com/embed/' + latest_video_id)
+
+    if is_py:
+        executable = '/usr/lib/chromium-browser/chromedriver'
+    else:
+        executable = 'chromedriver'
+
+    browser = webdriver.Chrome(executable_path=executable)
+    browser.get('https://www.youtube-nocookie.com/embed/' + latest_video_id + '?autoplay=1')
+    browser.fullscreen_window()
     # call_quit_event()
 
 
