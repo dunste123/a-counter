@@ -1,7 +1,7 @@
 import pygame
 import youtube
-# import webbrowser
-from selenium import webdriver
+import webbrowser
+# from selenium import webdriver
 from StoppableThread import StoppableThread
 import sched
 import time
@@ -123,16 +123,16 @@ def video_thread():
 
 
 def open_video_in_browser():
-    # webbrowser.open('https://www.youtube.com/embed/' + latest_video_id)
+    webbrowser.open('https://www.youtube-nocookie.com/embed/' + latest_video_id + '?autoplay=1')
 
-    if is_py:
-        executable = '/usr/lib/chromium-browser/chromedriver'
-    else:
-        executable = 'chromedriver'
-
-    browser = webdriver.Chrome(executable_path=executable)
-    browser.get('https://www.youtube-nocookie.com/embed/' + latest_video_id + '?autoplay=1')
-    browser.fullscreen_window()
+    # if is_py:
+    #     executable = '/usr/lib/chromium-browser/chromedriver'
+    # else:
+    #     executable = 'chromedriver'
+    #
+    # browser = webdriver.Chrome(executable_path=executable)
+    # browser.get('https://www.youtube-nocookie.com/embed/' + latest_video_id + '?autoplay=1')
+    # browser.fullscreen_window()
     # call_quit_event()
 
 
