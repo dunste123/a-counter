@@ -1,13 +1,14 @@
 import pygame
 import youtube
 import webbrowser
-# from selenium import webdriver
+from selenium import webdriver
 from StoppableThread import StoppableThread
 import sched
 import time
 from pygame.locals import *
 from colors import *
 from button import Button
+# import os
 
 pygame.init()
 
@@ -123,7 +124,17 @@ def video_thread():
 
 
 def open_video_in_browser():
-    webbrowser.open('https://www.youtube-nocookie.com/embed/' + latest_video_id + '?autoplay=1')
+    uri = 'https://www.youtube-nocookie.com/embed/%s?autoplay=1' % latest_video_id
+
+    if is_py:
+        webbrowser.open(uri)
+        # os.system('sudo -u pi epiphany-browser --profile ~/.config %s --display=:0 &' % uri)
+        # os.system('sleep 15s;')
+        # os.system('xte "key F11" -x:0')
+    else:
+        browser = webdriver.Chrome()
+        browser.get(uri)
+        browser.fullscreen_window()
 
     # if is_py:
     #     executable = '/usr/lib/chromium-browser/chromedriver'
@@ -131,8 +142,9 @@ def open_video_in_browser():
     #     executable = 'chromedriver'
     #
     # browser = webdriver.Chrome(executable_path=executable)
-    # browser.get('https://www.youtube-nocookie.com/embed/' + latest_video_id + '?autoplay=1')
+    # browser.get(uri)
     # browser.fullscreen_window()
+
     # call_quit_event()
 
 
